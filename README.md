@@ -9,6 +9,8 @@ Made by mixing these 3 together:
 - https://github.com/dunglas/symfony-docker
 - https://github.com/druidfi/stonehenge
 
+![Screenshot](screenshot.png "Screenshot")
+
 ## Requirements
 
 - Docker
