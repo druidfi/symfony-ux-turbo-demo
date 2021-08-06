@@ -1,0 +1,15 @@
+{% block create %}
+<turbo-stream action="append" target="room-list">
+    <template>
+        {{ include('fragments/_room_list_item.html.twig', {room: entity}) }}
+    </template>
+</turbo-stream>
+{% endblock %}
+
+{% block update %}
+<turbo-stream action="replace" target="room-name-{{ entity.id }}">
+    <template>
+        {{ include('fragments/_room_name.html.twig', {room: entity}) }}
+    </template>
+</turbo-stream>
+{% endblock %}

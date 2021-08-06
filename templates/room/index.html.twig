@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rooms</h1>
+    <turbo-frame id="create-room">
+        <a href="{{ path('create_room') }}">Create Room</a>
+    </turbo-frame>
+    <ul id="room-list" {{ turbo_stream_listen('App\\Entity\\Room') }}>
+        {% for room in rooms %}
+            {{ include('fragments/_room_list_item.html.twig', {room: room}) }}
+        {% endfor %}
+    </ul>
+{% endblock %}

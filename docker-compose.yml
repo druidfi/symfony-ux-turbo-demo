@@ -1,0 +1,98 @@
+version: "3.4"
+
+services:
+  php:
+    build:
+      context: .
+      target: symfony_php
+      args:
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
+        SKELETON: ${SKELETON:-symfony/skeleton}
+        STABILITY: ${STABILITY:-stable}
+    restart: unless-stopped
+    volumes:
+      - php_socket:/var/run/php
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    environment:
+      # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
+      DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
+      # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
+      MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
+      MERCURE_PUBLIC_URL: https://turbo.docker.so/.well-known/mercure
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
+    networks:
+      - internal
+
+  caddy:
+    build:
+      context: .
+      target: symfony_caddy
+    depends_on:
+      - php
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-:80}
+      MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
+    restart: unless-stopped
+    volumes:
+      - php_socket:/var/run/php
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      # HTTP
+      #- target: 80
+      #  published: 80
+      #  protocol: tcp
+      # HTTPS
+      #- target: 443
+      #  published: 443
+      #  protocol: tcp
+      # HTTP/3
+      - target: 443
+        published: 443
+        protocol: udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.rule=Host(`turbo.docker.so`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-caddy.loadbalancer.server.port=80"
+      - "traefik.docker.network=stonehenge-network"
+    networks:
+      - internal
+      - stonehenge-network
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+    networks:
+      - internal
+
+volumes:
+  php_socket:
+  caddy_data:
+
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###
+  caddy_config:
+
+networks:
+  internal:
+    external: false
+  stonehenge-network:
+    external: true

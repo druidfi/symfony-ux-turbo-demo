@@ -1,0 +1,5 @@
+<li id="room-list-item-{{ room.id }}">
+    <a href="{{ path('view_room', {'id': room.id}) }}">
+        {{ include('fragments/_room_name.html.twig', {room: room}) }}
+    </a>
+</li>

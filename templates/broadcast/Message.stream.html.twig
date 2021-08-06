@@ -1,0 +1,7 @@
+{% block create %}
+<turbo-stream action="append" target="messages-{{ entity.room.id }}">
+    <template>
+        {{ include('fragments/_message.html.twig', {message: entity}) }}
+    </template>
+</turbo-stream>
+{% endblock %}
