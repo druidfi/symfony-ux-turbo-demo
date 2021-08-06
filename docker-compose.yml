@@ -18,12 +18,14 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
+    depends_on:
+      - database
     environment:
       # Run "composer require symfony/orm-pack" to install and configure Doctrine ORM
       DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
       # Run "composer require symfony/mercure-bundle" to install and configure the Mercure integration
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
-      MERCURE_PUBLIC_URL: https://turbo.docker.so/.well-known/mercure
+      MERCURE_PUBLIC_URL: https://${APP_HOST}/.well-known/mercure
       MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
     networks:
       - internal
@@ -36,7 +38,7 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: ${SERVER_NAME:-:80}
+      SERVER_NAME: ":80"
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeMe!}
     restart: unless-stopped
@@ -60,7 +62,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.entrypoints=https"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.rule=Host(`turbo.docker.so`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.rule=Host(`${APP_HOST}`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-caddy.tls=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}-caddy.loadbalancer.server.port=80"
       - "traefik.docker.network=stonehenge-network"

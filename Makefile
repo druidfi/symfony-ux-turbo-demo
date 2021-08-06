@@ -1,6 +1,7 @@
 .PHONY: fresh stop
 
 fresh: build up db-setup
+	open https://turbo.docker.so/rooms
 
 build:
 	composer install
