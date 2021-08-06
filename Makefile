@@ -1,11 +1,16 @@
 .PHONY: fresh stop
 
-fresh:
+fresh: build up db-setup
+
+build:
 	composer install
 	yarn
+
+up:
 	docker-compose up -d
+
+db-setup:
 	docker-compose exec php bin/console doctrine:schema:update --force
-	yarn encore dev --watch
 
 watch:
 	yarn encore dev --watch
