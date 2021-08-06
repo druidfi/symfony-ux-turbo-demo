@@ -18,10 +18,21 @@ Made by mixing these 3 together:
 
 ## Setup
 
-1. Install dependencies: `composer install` & `yarn`
-2. Build & start Docker containers: `docker-compose up --build -d`
-3. Create the database with the matching schema: `docker-compose exec php bin/console doctrine:schema:update --force`
-4. Open up `https://turbo.docker.so/rooms` in 2 different browsers to get chat started!
+Build and start all things:
+
+```
+make fresh
+```
+
+## Watch
+
+Start watching changes in CSS js JS:
+
+```
+make watch
+```
+
+Ready! Now go to https://turbo.docker.so/ to see your site.
 
 ## Notes
 

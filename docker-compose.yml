@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   php:
+    container_name: "${COMPOSE_PROJECT_NAME}-php"
     build:
       context: .
       target: symfony_php
@@ -28,6 +29,7 @@ services:
       - internal
 
   caddy:
+    container_name: "${COMPOSE_PROJECT_NAME}-caddy"
     build:
       context: .
       target: symfony_caddy
@@ -68,6 +70,7 @@ services:
 
 ###> doctrine/doctrine-bundle ###
   database:
+    container_name: "${COMPOSE_PROJECT_NAME}-database"
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
