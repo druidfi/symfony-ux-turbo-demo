@@ -12,9 +12,9 @@ Made by mixing these 3 together:
 ## Requirements
 
 - Docker
+- [Stonehenge](https://github.com/druidfi/stonehenge)
 - PHP 8.0
 - Node + Yarn
-- Stonehenge
 
 ## Setup
 
