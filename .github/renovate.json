@@ -1,0 +1,9 @@
+{
+  "description": "Updated conf on 6.8.2021 12:23",
+  "extends": [
+    "config:base",
+    "github>druidfi/renovate-config:global",
+    "github>druidfi/renovate-config:symfony",
+    "github>druidfi/renovate-config:js"
+  ]
+}
