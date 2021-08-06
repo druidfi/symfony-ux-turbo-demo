@@ -26,7 +26,7 @@ make fresh
 
 ## Watch
 
-Start watching changes in CSS js JS:
+Start watching changes in CSS and JS:
 
 ```
 make watch
