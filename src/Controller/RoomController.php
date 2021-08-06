@@ -71,8 +71,16 @@ class RoomController extends AbstractController
         $message = (new Message())->setRoom($room);
 
         $form = $this->createFormBuilder($message)
-            ->add('text', TextType::class, ['attr' => ['autocomplete' => 'off', 'autofocus' => true]])
-            ->add('submit', SubmitType::class)
+            ->add('text', TextType::class, [
+                'label' => false,
+                'attr' => [
+                    'autocomplete' => 'off',
+                    'autofocus' => true,
+                    'placeholder' => 'Type your message here',
+                    'class' => 'message-input'
+                ]
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Send'])
             ->getForm();
 
         $form->handleRequest($request);

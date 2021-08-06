@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('rooms') }}">< Back to rooms</a>
+
     <turbo-frame id="room">
         <h1>{{ include('fragments/_room_name.html.twig', {room: room}) }}</h1>
-        <a href="{{ path('rename_room', {'id': room.id}) }}">Rename</a>
+        <a href="{{ path('rename_room', {'id': room.id}) }}" class="btn">Rename chatroom</a>
     </turbo-frame>
-    <ul id="messages-{{ room.id }}" {{ turbo_stream_listen('App\\Entity\\Message') }}>
-        {% for message in messages %}
-            {{ include('fragments/_message.html.twig', {message: message}) }}
-        {% endfor %}
-    </ul>
-    {{ form(form) }}
+
+    <a href="{{ path('rooms') }}" class="btn">Back to room list</a>
+
+    <div class="pt-8 pl-4">
+
+        <ul id="messages-{{ room.id }}" {{ turbo_stream_listen('App\\Entity\\Message') }}>
+            {% for message in messages %}
+                {{ include('fragments/_message.html.twig', {message: message}) }}
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <div class="mt-4">
+        {{ form(form) }}
+    </div>
+
 {% endblock %}

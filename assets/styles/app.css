@@ -1,3 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
-    background-color: lightgray;
+    @apply bg-gradient-to-r from-green-400 to-blue-500;
+}
+h1 {
+    @apply text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-8 mb-8;
+}
+h2 {
+    @apply text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate mt-4 mb-4;
+}
+button,
+.btn {
+    @apply rounded-lg px-4 py-2 border-2 border-blue-500 text-blue-500 hover:bg-blue-600 hover:text-blue-100 duration-300;
+}
+.message-input {
+    @apply shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-4;
 }

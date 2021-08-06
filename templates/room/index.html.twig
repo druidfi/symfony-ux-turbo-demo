@@ -3,11 +3,17 @@
 {% block body %}
     <h1>Rooms</h1>
     <turbo-frame id="create-room">
-        <a href="{{ path('create_room') }}">Create Room</a>
+        <a href="{{ path('create_room') }}" class="btn">Create a new Room</a>
     </turbo-frame>
-    <ul id="room-list" {{ turbo_stream_listen('App\\Entity\\Room') }}>
-        {% for room in rooms %}
-            {{ include('fragments/_room_list_item.html.twig', {room: room}) }}
-        {% endfor %}
-    </ul>
+
+    <div class="pt-8 pl-4">
+
+        <ul id="room-list" {{ turbo_stream_listen('App\\Entity\\Room') }}>
+            {% for room in rooms %}
+                {{ include('fragments/_room_list_item.html.twig', {room: room}) }}
+            {% endfor %}
+        </ul>
+
+    </div>
+
 {% endblock %}

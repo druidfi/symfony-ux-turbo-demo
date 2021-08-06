@@ -1,5 +1,29 @@
 <li id="room-list-item-{{ room.id }}">
-    <a href="{{ path('view_room', {'id': room.id}) }}">
-        {{ include('fragments/_room_name.html.twig', {room: room}) }}
-    </a>
+    <div class="relative pb-8">
+        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+        <div class="relative flex space-x-3">
+            <div>
+                <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                  <!-- Heroicon name: solid/user -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+                </span>
+            </div>
+            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                <div>
+                    <p class="text-sm">
+                        <a href="{{ path('view_room', {'id': room.id}) }}">
+                            {{ include('fragments/_room_name.html.twig', {room: room}) }}
+                        </a>
+                    </p>
+                </div>
+                <!--
+                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                    <time datetime="2020-09-20">Sep 20</time>
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
 </li>
