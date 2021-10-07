@@ -8,17 +8,17 @@ build:
 	yarn
 
 up:
-	docker-compose up -d
+	docker compose up -d
 
 db-setup:
-	docker-compose exec php bin/console doctrine:schema:update --force
+	docker compose exec php bin/console doctrine:schema:update --force
 
 watch:
 	yarn encore dev --watch
 
 stop:
-	docker-compose stop
+	docker compose stop
 
 down:
-	docker-compose down -v
+	docker compose down -v
 	rm -rf node_modules var vendor
